@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <title>빌링키 결제</title>
+
+    <link rel="canonical" href="https://getbootstrap.kr/docs/5.2/examples/checkout/">
+    <link href="https://getbootstrap.kr/docs/5.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" href="https://getbootstrap.kr/docs/5.2/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
+    <link rel="icon" href="https://getbootstrap.kr/docs/5.2/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
+    <link rel="icon" href="https://getbootstrap.kr/docs/5.2/assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
+    <link rel="manifest" href="https://getbootstrap.kr/docs/5.2/assets/img/favicons/manifest.json">
+    <link rel="mask-icon" href="https://getbootstrap.kr/docs/5.2/assets/img/favicons/safari-pinned-tab.svg" color="#712cf9">
+    <link rel="icon" href="https://getbootstrap.kr/docs/5.2/assets/img/favicons/favicon.ico">
+    <meta name="theme-color" content="#712cf9">
+
+
+    <style>
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select: none;
+        }
+
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
+
+        .b-example-divider {
+            height: 3rem;
+            background-color: rgba(0, 0, 0, .1);
+            border: solid rgba(0, 0, 0, .15);
+            border-width: 1px 0;
+            box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
+        }
+
+        .b-example-vr {
+            flex-shrink: 0;
+            width: 1.5rem;
+            height: 100vh;
+        }
+
+        .bi {
+            vertical-align: -.125em;
+            fill: currentColor;
+        }
+
+        .nav-scroller {
+            position: relative;
+            z-index: 2;
+            height: 2.75rem;
+            overflow-y: hidden;
+        }
+
+        .nav-scroller .nav {
+            display: flex;
+            flex-wrap: nowrap;
+            padding-bottom: 1rem;
+            margin-top: -1px;
+            overflow-x: auto;
+            text-align: center;
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch;
+        }
+    </style>
+
+
+    <!-- Custom styles for this template -->
+    <link href="form-validation.css" rel="stylesheet">
+
+    <script type="text/javascript">
+        function doPay() {
+            document.getElementById("orderId").value = "atech-member-"+String(Math.floor(Math.random() * 1000000));
+            document.getElementById("paymentForm").submit();
+        }
+    </script>
+
+</head>
+<body class="bg-light">
+<div class="container">
+    <main>
+        <div class="py-5 text-center">
+            <h2>BillingKey issuing form</h2>
+        </div>
+
+        <div class="row g-5">
+            <div class="col-md-5 col-lg-4 order-md-last">
+
+            </div>
+            <div class="col-md-7 col-lg-8">
+                <h4 class="mb-3">빌링키로 결제를 진행합니다.</h4>
+                <form method="get" class="needs-validation" id="paymentForm" novalidate action="./../billing/payment">
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label for="customerKey" class="form-label">customerKey</label>
+                            <input type="text" class="form-control" id="customerKey" name="customerKey" placeholder="abcd1234" th:value="${customerKey}">
+                            <div class="invalid-feedback">
+                                customerKey 를 입력해주세요
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <label for="amount" class="form-label">amount</label>
+                            <input type="text" class="form-control" id="amount" name="amount" placeholder="120" required value="150">
+                            <div class="invalid-feedback">
+                                결제 할 금액을 입력해주세요.
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <label for="orderId" class="form-label">orderId</label>
+                            <input type="text" class="form-control" id="orderId" name="orderId" placeholder="asdf1234" required value="">
+                            <div class="invalid-feedback">
+                                주문번호를 입력해주세요.
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <label for="orderName" class="form-label">orderName</label>
+                            <input type="text" class="form-control" id="orderName" name="orderName" placeholder="영혼 탈곡기 2회 이용권" required value="영혼 탈곡기 2회 이용권">
+                            <div class="invalid-feedback">
+                                주문명을 입력해주세요.
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <label for="customerEmail" class="form-label">customerEmail</label>
+                            <input type="text" class="form-control" id="customerEmail" name="customerEmail" placeholder="techsupport@toss.im" required value="inmanaged@toss.im">
+                            <div class="invalid-feedback">
+                                고객 이메일을 입력해주세요.
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <label for="customerName" class="form-label">customerName</label>
+                            <input type="text" class="form-control" id="customerName" name="customerName" placeholder="김토스" required value="김토스">
+                            <div class="invalid-feedback">
+                                고객 이름을 입력해주세요.
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <label for="billingKey" class="form-label">billingKey</label>
+                            <input type="text" class="form-control" id="billingKey" name="billingKey" placeholder="1234567890abcdefg" required th:value="${billingKey}">
+                            <div class="invalid-feedback">
+                                빌링키를 입력해주세요.
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="my-4">
+                    <button class="w-100 btn btn-primary btn-lg" type="submit" onclick="doPay();">Continue to checkout</button>
+                </form>
+
+                <span th:text="${billingKey}">받은 빌링키</span>
+                <span th:text="${customerKey}">받은 customerKey</span>
+            </div>
+        </div>
+    </main>
+</div>
+
+
+<script src="https://getbootstrap.kr/docs/5.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+
+<script src="form-validation.js"></script>
+
+
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!-- 카드-키인결제 OrderPageCardKeyinPayment.html-->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+</head>
+
+<body>
+
+<th:block th:if="${#strings.equals(isSuccess, 'true')}">
+
+  <div class="bg-dark text-secondary px-4 py-5 text-left">
+    <div class="py-5">
+      <h1 class="display-5 fw-bold text-white text-center">취소결과</h1>
+      <div class="col-lg-10 mx-auto">
+        <p class="fs-5 mb-7">orderName : <span th:text="${orderName}"></span></p>
+        <p class="fs-5 mb-7">method : <span th:text="${method}"></span></p>
+        <p class="fs-5 mb-7">paymentKey : <span id="paymentKey" th:text="${paymentKey}"></span></p>
+        <p class="fs-7 mb-5">받은데이터 : <span th:text="${responseStr}"></span></p>
+        <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+          <button type="button" class="btn btn-outline-light btn-lg px-4" onclick=location.replace("http://localhost:8080")>처음으로</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</th:block>
+
+<th:block th:if="${#strings.equals(isSuccess, 'false')}">
+  <div class="bg-dark text-secondary px-4 py-5 text-left">
+    <div class="py-5">
+      <h1 class="display-5 fw-bold text-white text-center">취소실패</h1>
+      <div class="col-lg-10 mx-auto">
+
+        <p class="fs-4 mb-3">에러메시지 : <span th:text="${message}"></span></p>
+        <p class="fs-4 mb-5">에러코드 : <span th:text="${code}"></span></p>
+
+        <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+          <button type="button" class="btn btn-outline-light btn-lg px-4" onclick=location.replace("http://localhost:8080")>처음으로</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</th:block>
+
+</body>
+
+</html>

@@ -1,0 +1,188 @@
+<!--
+index.html 에서 keyin 결제 선택시 이 페이지로 로딩됨
+필요한 parameter 를 set 하여 /keyin 으로 CardKeyinPaymentController 를 호출함
+CardKeyinPaymentController 에서는 결제 승인요청학고 결과를 success.html 로 리턴
+
+이 페이지에서 set 되는 parameter
+- orderId : 자동생성
+- amount : 금액, 1,000 fixed, 수정가능
+- cardNumber : fixed, 수정가능
+- cardExpirationYear : 2자리 년도 fixed, 수정가능
+- cardExpirationMonth : 2가지 월 fixed, 수정가능
+- cardPassword : 카드비밀번호 fixed, 수정가능
+- customerIdentityNumber : 생년월일 fixed, 수정가능
+-->
+
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <title>Keyin 결제</title>
+
+    <link rel="canonical" href="https://getbootstrap.kr/docs/5.2/examples/checkout/">
+    <link href="https://getbootstrap.kr/docs/5.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" href="https://getbootstrap.kr/docs/5.2/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
+    <link rel="icon" href="https://getbootstrap.kr/docs/5.2/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
+    <link rel="icon" href="https://getbootstrap.kr/docs/5.2/assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
+    <link rel="manifest" href="https://getbootstrap.kr/docs/5.2/assets/img/favicons/manifest.json">
+    <link rel="mask-icon" href="https://getbootstrap.kr/docs/5.2/assets/img/favicons/safari-pinned-tab.svg" color="#712cf9">
+    <link rel="icon" href="https://getbootstrap.kr/docs/5.2/assets/img/favicons/favicon.ico">
+    <meta name="theme-color" content="#712cf9">
+
+
+    <style>
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select: none;
+        }
+
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
+
+        .b-example-divider {
+            height: 3rem;
+            background-color: rgba(0, 0, 0, .1);
+            border: solid rgba(0, 0, 0, .15);
+            border-width: 1px 0;
+            box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
+        }
+
+        .b-example-vr {
+            flex-shrink: 0;
+            width: 1.5rem;
+            height: 100vh;
+        }
+
+        .bi {
+            vertical-align: -.125em;
+            fill: currentColor;
+        }
+
+        .nav-scroller {
+            position: relative;
+            z-index: 2;
+            height: 2.75rem;
+            overflow-y: hidden;
+        }
+
+        .nav-scroller .nav {
+            display: flex;
+            flex-wrap: nowrap;
+            padding-bottom: 1rem;
+            margin-top: -1px;
+            overflow-x: auto;
+            text-align: center;
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch;
+        }
+    </style>
+
+
+    <!-- Custom styles for this template -->
+    <link href="form-validation.css" rel="stylesheet">
+
+    <script type="text/javascript">
+        function makeOrderId(){
+        document.getElementById("orderId").value = "atech-"+String(Math.floor(Math.random() * 1000000));
+        alert(oid);
+        }
+
+        function doPay() {
+            makeOrderId();
+            document.getElementById("orderId").value = "atech-"+String(Math.floor(Math.random() * 1000000));
+            document.getElementById("paymentForm").submit();
+        }
+    </script>
+
+</head>
+<body class="bg-light">
+<div class="container">
+    <main>
+        <div class="py-5 text-center">
+            <h2>Keyin input form</h2>
+        </div>
+
+        <div class="row g-5">
+            <div class="col-md-5 col-lg-4 order-md-last">
+
+            </div>
+            <div class="col-md-7 col-lg-8">
+                <h4 class="mb-3">다음의 값으로 승인요청 됩니다.</h4>
+                <form method="get" class="needs-validation" id="paymentForm" novalidate action="./../keyin/payRequest" onsubmit="makeOrderId();">
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label for="orderId" class="form-label">orderId</label>
+                            <input type="text" class="form-control" id="orderId" name="orderId" placeholder="abcd1234" value="">
+                            <div class="invalid-feedback">
+                                주문번호를 입력해주세요
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <label for="amount" class="form-label">amount</label>
+                            <input type="text" class="form-control" id="amount" name="amount" placeholder="120" required value="130">
+                            <div class="invalid-feedback">
+                                금액을 입력해주세요
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <label for="cardNumber" class="form-label">cardNumber</label>
+                            <input type="text" class="form-control" id="cardNumber" name="cardNumber" placeholder="1234-1234-1234-1234" required value="5361259000947337">
+                            <div class="invalid-feedback">
+                                카드번호를 입력해주세요
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <label for="cardExpirationYear" class="form-label">cardExpirationYear</label>
+                            <input type="text" class="form-control" id="cardExpirationYear" name="cardExpirationYear" placeholder="23" required value="25">
+                            <div class="invalid-feedback">
+                                카드유효기간(년)을 두자리로 입력해주세요
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <label for="cardExpirationMonth" class="form-label">cardExpirationMonth</label>
+                            <input type="text" class="form-control" id="cardExpirationMonth" name="cardExpirationMonth" placeholder="12" required value="11">
+                            <div class="invalid-feedback">
+                                카드유효기간(월)을 두자리로 입력해주세요
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <label for="cardPassword" class="form-label">cardPassword</label>
+                            <input type="text" class="form-control" id="cardPassword" name="cardPassword" placeholder="12" required value="19">
+                            <div class="invalid-feedback">
+                                카드 비밀번호를 입력해주세요
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <label for="customerIdentityNumber" class="form-label">customerIdentityNumber</label>
+                            <input type="text" class="form-control" id="customerIdentityNumber" name="customerIdentityNumber" placeholder="901212" required value="790304">
+                            <div class="invalid-feedback">
+                                생년월일을 입력해주세요
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="my-4">
+                    <button class="w-100 btn btn-primary btn-lg" type="submit" onclick="doPay();">Continue to checkout</button>
+                </form>
+            </div>
+        </div>
+    </main>
+</div>
+
+
+<script src="https://getbootstrap.kr/docs/5.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+
+<script src="form-validation.js"></script>
+
+
+</body>
+</html>
